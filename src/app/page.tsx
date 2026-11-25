@@ -2,6 +2,7 @@ import Link from "next/link";
 import { createPublicClient } from "@/lib/supabase/public";
 import { ProfissionalPublico } from "@/lib/types";
 import ProCard from "@/components/ProCard";
+import ProcessAnimation from "@/components/ProcessAnimation";
 
 export default async function Home() {
   const supabase = createPublicClient();
@@ -37,62 +38,36 @@ export default async function Home() {
               <div className="hero-stat"><b>100%</b><span>Pagamento protegido</span></div>
             </div>
           </div>
-          <div className="hero-art">
-            <div className="ring" />
-            <span style={{ position: "relative", fontWeight: 800, fontSize: "1.3rem", letterSpacing: "-.01em" }}>
-              360° de confiança
-            </span>
+          <div className="hero-photo">
+            <img src="/fotos/hero-divisao-pintura.jpg" alt="Profissional Pintura360 a pintar uma divisão" />
+            <div className="hero-photo-badge">360° de cuidado — do primeiro contacto à limpeza final.</div>
           </div>
         </div>
       </section>
 
       <section className="section" id="como-funciona">
         <div className="container">
-          <div className="center" style={{ maxWidth: 640, margin: "0 auto 48px" }}>
+          <div className="center" style={{ maxWidth: 640, margin: "0 auto 36px" }}>
             <span className="eyebrow">Como funciona</span>
-            <h2>Duas portas de entrada. Um só processo de confiança.</h2>
+            <h2>Do pedido à parede pintada, em 4 passos.</h2>
           </div>
-          <div className="grid grid-2" style={{ gap: 40 }}>
-            <div>
-              <h3 style={{ marginBottom: 18 }}>Para quem procura um pintor</h3>
-              <div className="grid" style={{ gap: 16 }}>
-                <div className="step-card">
-                  <span className="step-num">1</span>
-                  <h3>Descreva o projeto</h3>
-                  <p className="muted">Área, divisões, localização e prazo pretendido — leva menos de 2 minutos.</p>
-                </div>
-                <div className="step-card">
-                  <span className="step-num">2</span>
-                  <h3>Reserve o serviço</h3>
-                  <p className="muted">Confirma a sua reserva. Só depois da confirmação o pedido é atribuído a um profissional da sua zona.</p>
-                </div>
-                <div className="step-card">
-                  <span className="step-num">3</span>
-                  <h3>Trabalho acompanhado</h3>
-                  <p className="muted">Recebe os contactos do profissional atribuído e acompanhamos até à conclusão.</p>
-                </div>
-              </div>
-            </div>
-            <div>
-              <h3 style={{ marginBottom: 18 }}>Para profissionais de pintura</h3>
-              <div className="grid" style={{ gap: 16 }}>
-                <div className="step-card">
-                  <span className="step-num">1</span>
-                  <h3>Inscreva-se</h3>
-                  <p className="muted">Indique a sua zona de atuação, especialidades e experiência.</p>
-                </div>
-                <div className="step-card">
-                  <span className="step-num">2</span>
-                  <h3>Verificação</h3>
-                  <p className="muted">A nossa equipa confirma os seus dados antes de aparecer no diretório público.</p>
-                </div>
-                <div className="step-card">
-                  <span className="step-num">3</span>
-                  <h3>Receba pedidos</h3>
-                  <p className="muted">Pedidos de clientes na sua zona são-lhe atribuídos diretamente — sem concorrer por leads.</p>
-                </div>
-              </div>
-            </div>
+          <ProcessAnimation />
+          <div className="center" style={{ marginTop: 28 }}>
+            <Link href="/como-funciona" className="btn btn-outline-navy">Ver como funciona em detalhe</Link>
+          </div>
+        </div>
+      </section>
+
+      <section className="section" style={{ background: "#fff", borderTop: "1px solid var(--line)" }}>
+        <div className="container">
+          <div className="center" style={{ maxWidth: 640, margin: "0 auto 36px" }}>
+            <span className="eyebrow">Transformamos espaços</span>
+            <h2>Profissionais a sério, trabalho a sério.</h2>
+          </div>
+          <div className="photo-gallery">
+            <img className="tall" src="/fotos/hero-divisao-pintura.jpg" alt="Profissional Pintura360 a pintar uma parede cinzenta" />
+            <img src="/fotos/foto-equipa-1.jpg" alt="Profissional Pintura360 a pintar, visto de costas" />
+            <img src="/fotos/hero-cuidado-detalhe.jpg" alt="Pormenor do trabalho de pintura Pintura360" />
           </div>
         </div>
       </section>

@@ -14,7 +14,7 @@ export default function Footer() {
         <div>
           <h4>Navegação</h4>
           <ul>
-            <li><Link href="/#como-funciona">Como funciona</Link></li>
+            <li><Link href="/como-funciona">Como funciona</Link></li>
             <li><Link href="/profissionais">Profissionais</Link></li>
             <li><Link href="/pedido-orcamento">Pedir orçamento</Link></li>
           </ul>

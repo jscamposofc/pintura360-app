@@ -14,7 +14,7 @@ export default function Header() {
         </Link>
         <nav>
           <ul className={`nav-links ${open ? "open" : ""}`}>
-            <li><Link href="/#como-funciona" onClick={() => setOpen(false)}>Como funciona</Link></li>
+            <li><Link href="/como-funciona" onClick={() => setOpen(false)}>Como funciona</Link></li>
             <li><Link href="/profissionais" onClick={() => setOpen(false)}>Profissionais</Link></li>
             <li><Link href="/trabalhe-connosco" onClick={() => setOpen(false)}>Para Profissionais</Link></li>
             <li><Link href="/#contactos" onClick={() => setOpen(false)}>Contactos</Link></li>

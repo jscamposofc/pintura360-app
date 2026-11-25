@@ -180,3 +180,76 @@ table.admin-table th{background:var(--paper);font-size:.76rem;text-transform:upp
 
 /* Avatar colors for demo/seed */
 .avatar-1{background:#F5821F}.avatar-2{background:#1F4E9C}.avatar-3{background:#1E9E63}.avatar-4{background:#A5311F}.avatar-5{background:#6B3FA0}
+
+/* ===== Process animation (motion graphics, sem pessoas) ===== */
+.process-anim{background:var(--navy);border-radius:var(--radius);padding:56px 32px 40px;overflow:hidden}
+.process-anim-track{position:relative;display:flex;justify-content:space-between;gap:12px}
+.process-anim-line{position:absolute;top:31px;left:0;width:100%;height:4px;pointer-events:none}
+.process-anim-line line{stroke:rgba(255,255,255,.18);stroke-width:4}
+.process-anim-dot{position:absolute;top:19px;width:28px;height:28px;margin-left:-14px;border-radius:50%;background:var(--orange);box-shadow:0 0 0 6px rgba(245,130,31,.25),0 0 24px rgba(245,130,31,.6);animation:dotMove 8s infinite cubic-bezier(.65,0,.35,1)}
+.process-stage{position:relative;z-index:1;flex:1;display:flex;flex-direction:column;align-items:center;text-align:center;max-width:180px}
+.process-stage-ring{width:64px;height:64px;border-radius:50%;background:rgba(255,255,255,.08);border:2px solid rgba(255,255,255,.25);color:#B9C3DA;display:flex;align-items:center;justify-content:center;transition:none}
+.process-stage-ring svg{width:28px;height:28px}
+.process-stage-caption{margin-top:16px;color:#C9D2E6}
+.process-stage-caption strong{display:block;color:#fff;font-size:.95rem;margin-bottom:4px}
+.process-stage-caption span{font-size:.82rem;line-height:1.4}
+.process-stage-1 .process-stage-ring{animation:ringPulse1 8s infinite}
+.process-stage-2 .process-stage-ring{animation:ringPulse2 8s infinite}
+.process-stage-3 .process-stage-ring{animation:ringPulse3 8s infinite}
+.process-stage-4 .process-stage-ring{animation:ringPulse4 8s infinite}
+
+@keyframes dotMove{
+  0%,10%{left:0%;opacity:1}
+  27.5%,37.5%{left:33.333%;opacity:1}
+  55%,65%{left:66.666%;opacity:1}
+  82.5%,92.5%{left:100%;opacity:1}
+  97%{left:100%;opacity:0}
+  98%{left:0%;opacity:0}
+  100%{left:0%;opacity:1}
+}
+@keyframes ringPulse1{
+  0%,10%{background:var(--orange);border-color:var(--orange);color:#fff;transform:scale(1.08)}
+  20%,100%{background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.25);color:#B9C3DA;transform:scale(1)}
+}
+@keyframes ringPulse2{
+  0%,17.5%{background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.25);color:#B9C3DA;transform:scale(1)}
+  27.5%,37.5%{background:var(--orange);border-color:var(--orange);color:#fff;transform:scale(1.08)}
+  47.5%,100%{background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.25);color:#B9C3DA;transform:scale(1)}
+}
+@keyframes ringPulse3{
+  0%,45%{background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.25);color:#B9C3DA;transform:scale(1)}
+  55%,65%{background:var(--orange);border-color:var(--orange);color:#fff;transform:scale(1.08)}
+  75%,100%{background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.25);color:#B9C3DA;transform:scale(1)}
+}
+@keyframes ringPulse4{
+  0%,72.5%{background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.25);color:#B9C3DA;transform:scale(1)}
+  82.5%,96%{background:var(--orange);border-color:var(--orange);color:#fff;transform:scale(1.08)}
+  100%{background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.25);color:#B9C3DA;transform:scale(1)}
+}
+@media (max-width:760px){
+  .process-anim-track{flex-direction:column;gap:36px;align-items:flex-start;padding-left:40px}
+  .process-anim-line{display:none}
+  .process-anim-dot{display:none}
+  .process-stage{flex-direction:row;text-align:left;max-width:none;gap:16px}
+  .process-stage-caption{margin-top:0}
+  .process-stage-1 .process-stage-ring,.process-stage-2 .process-stage-ring,.process-stage-3 .process-stage-ring,.process-stage-4 .process-stage-ring{animation:none;background:var(--orange);border-color:var(--orange);color:#fff;flex-shrink:0}
+}
+@media (prefers-reduced-motion: reduce){
+  .process-anim-dot,.process-stage-1 .process-stage-ring,.process-stage-2 .process-stage-ring,.process-stage-3 .process-stage-ring,.process-stage-4 .process-stage-ring{animation:none}
+  .process-anim-dot{left:0%}
+}
+
+/* Hero com fotografia (página inicial) */
+.hero-photo{border-radius:var(--radius);overflow:hidden;position:relative;min-height:380px;box-shadow:var(--shadow)}
+.hero-photo img{width:100%;height:100%;object-fit:cover;position:absolute;inset:0}
+.hero-photo::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(11,31,61,0) 40%,rgba(11,31,61,.55) 100%)}
+.hero-photo-badge{position:absolute;left:20px;bottom:20px;z-index:1;background:rgba(11,31,61,.85);backdrop-filter:blur(6px);color:#fff;padding:12px 16px;border-radius:var(--radius-sm);font-size:.85rem;max-width:260px;font-weight:600}
+
+/* Galeria de fotos */
+.photo-gallery{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.photo-gallery img{width:100%;height:220px;object-fit:cover;border-radius:var(--radius-sm);box-shadow:var(--shadow-sm)}
+.photo-gallery .tall{height:456px;grid-row:span 2}
+@media (max-width:760px){
+  .photo-gallery{grid-template-columns:1fr 1fr}
+  .photo-gallery .tall{height:220px;grid-row:span 1}
+}
