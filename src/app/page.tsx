@@ -1,18 +1,9 @@
 import Link from "next/link";
 import { createPublicClient } from "@/lib/supabase/public";
-import { ProfissionalPublico } from "@/lib/types";
-import ProCard from "@/components/ProCard";
 import ProcessAnimation from "@/components/ProcessAnimation";
 
 export default async function Home() {
   const supabase = createPublicClient();
-  const { data } = await supabase
-    .from("profissionais_publicos")
-    .select("*")
-    .order("avaliacao", { ascending: false })
-    .limit(3);
-  const destaque = (data ?? []) as ProfissionalPublico[];
-
   const { count } = await supabase
     .from("profissionais_publicos")
     .select("*", { count: "exact", head: true });
@@ -23,10 +14,11 @@ export default async function Home() {
         <div className="container hero-grid">
           <div>
             <span className="eyebrow">Plataforma de Pintura · Grande Lisboa</span>
-            <h1>Encontre o profissional de pintura certo. Sem surpresas.</h1>
+            <h1>Peça o seu orçamento. Nós indicamos o profissional certo.</h1>
             <p className="muted" style={{ fontSize: "1.08rem", maxWidth: 540 }}>
-              Descreva o seu projeto, receba propostas de profissionais verificados na sua zona
-              e só paga depois do trabalho ser atribuído e confirmado. Simples, transparente, seguro.
+              Descreva o seu projeto e a nossa equipa atribui-o a um profissional verificado
+              na sua zona. Só paga depois do trabalho ser atribuído e confirmado. Simples,
+              transparente, seguro.
             </p>
             <div className="hero-actions">
               <Link href="/pedido-orcamento" className="btn btn-orange">Pedir Orçamento Grátis</Link>
@@ -70,23 +62,6 @@ export default async function Home() {
           </div>
         </div>
       </section>
-
-      {destaque.length > 0 && (
-        <section className="section" style={{ background: "#fff", borderTop: "1px solid var(--line)", borderBottom: "1px solid var(--line)" }}>
-          <div className="container">
-            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", marginBottom: 28, flexWrap: "wrap", gap: 12 }}>
-              <div>
-                <span className="eyebrow">Diretório</span>
-                <h2 style={{ marginBottom: 0 }}>Profissionais verificados</h2>
-              </div>
-              <Link href="/profissionais" className="btn btn-outline-navy btn-sm">Ver todos</Link>
-            </div>
-            <div className="grid grid-3">
-              {destaque.map((p) => <ProCard key={p.id} p={p} />)}
-            </div>
-          </div>
-        </section>
-      )}
 
       <section className="section">
         <div className="container cta-band">

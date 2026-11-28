@@ -5,7 +5,7 @@ export const metadata = { title: "Pedir Orçamento — Pintura360" };
 export default async function PedidoOrcamento({
   searchParams,
 }: {
-  searchParams: Promise<{ pref?: string; prefNome?: string; erro?: string }>;
+  searchParams: Promise<{ erro?: string }>;
 }) {
   const sp = await searchParams;
   return (
@@ -20,7 +20,7 @@ export default async function PedidoOrcamento({
             Não foi possível submeter o pedido. Verifique os dados e tente novamente.
           </div>
         )}
-        <WizardOrcamento prefId={sp.pref ?? null} prefNome={sp.prefNome ?? null} />
+        <WizardOrcamento />
       </div>
     </section>
   );

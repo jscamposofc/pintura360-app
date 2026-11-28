@@ -15,7 +15,6 @@ export async function criarPedido(formData: FormData) {
   const notas = String(formData.get("notas") ?? "").trim().slice(0, 500);
   const areaRaw = formData.get("area");
   const divisoesRaw = formData.get("divisoes");
-  const prefIdRaw = formData.get("pref_id");
   const consent = formData.get("consent");
   const plano = String(formData.get("plano") ?? "").trim().slice(0, 20);
   const estimatedPriceRaw = formData.get("estimated_price");
@@ -38,7 +37,6 @@ export async function criarPedido(formData: FormData) {
     notas: notas || null,
     area: areaRaw ? Number(areaRaw) : null,
     divisoes: divisoesRaw ? Number(divisoesRaw) : null,
-    pref_profissional_id: prefIdRaw ? Number(prefIdRaw) : null,
     plano: plano || null,
     estimated_price: estimatedPriceRaw ? Number(estimatedPriceRaw) : null,
     materials_included: materialsIncluded,

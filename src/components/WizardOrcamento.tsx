@@ -7,13 +7,7 @@ import { calcPrice, PLAN_LABELS, PLAN_DESCRIPTIONS, type Plano } from "@/lib/pri
 const SERVICOS = ["Interiores", "Exteriores", "Fachadas", "Estuque/Pladur", "Outro"];
 const PLANOS: Plano[] = ["essencial", "recomendado", "premium"];
 
-export default function WizardOrcamento({
-  prefId,
-  prefNome,
-}: {
-  prefId: string | null;
-  prefNome: string | null;
-}) {
+export default function WizardOrcamento() {
   const [step, setStep] = useState(1);
   const [servico, setServico] = useState("");
   const [area, setArea] = useState("");
@@ -49,8 +43,6 @@ export default function WizardOrcamento({
   return (
     <form className="wizard-shell" action={criarPedido}>
       <input type="hidden" name="servico" value={servico} />
-      <input type="hidden" name="pref_id" value={prefId ?? ""} />
-      <input type="hidden" name="pref_nome" value={prefNome ?? ""} />
       <input type="hidden" name="plano" value={plano} />
       <input type="hidden" name="estimated_price" value={precoEstimado} />
       <input type="hidden" name="materials_included" value={comMateriais ? "1" : "0"} />
@@ -58,10 +50,6 @@ export default function WizardOrcamento({
       <div className="wizard-progress">
         {[1, 2, 3, 4, 5, 6].map((n) => <span key={n} className={n <= step ? "done" : ""} />)}
       </div>
-
-      {prefNome && (
-        <p className="muted center" style={{ marginBottom: 16 }}>Preferência indicada: {prefNome}</p>
-      )}
 
       <div className={`wizard-step ${step === 1 ? "active" : ""}`}>
         <h3>Que tipo de serviço procura?</h3>
@@ -192,7 +180,6 @@ export default function WizardOrcamento({
           <p><strong>Localização:</strong> {concelho || "—"}, {distrito || "—"}</p>
           <p><strong>Nome:</strong> {nome || "—"} · <strong>Telemóvel:</strong> {telefone || "—"}</p>
           <p><strong>Email:</strong> {email || "—"}</p>
-          {prefNome && <p><strong>Profissional preferido:</strong> {prefNome}</p>}
         </div>
         <div className="alert alert-info">
           Esta estimativa é indicativa. Não há nenhum pagamento a fazer agora. A nossa equipa

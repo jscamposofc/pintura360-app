@@ -16,7 +16,6 @@ type Pedido = {
   telefone: string;
   email: string;
   notas: string | null;
-  pref_profissional_id: number | null;
   status: string;
   profissional_id: number | null;
   plano: string | null;
