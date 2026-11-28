@@ -7,6 +7,7 @@ import {
   ESTADOS, METODO_LABELS, ORDEM_ESTADOS, PLANO_LABELS, data, dataHora, divisoesTexto, euros,
   sugerirParceiros, telefoneWa, type Estado, type Evento, type Pedido, type Profissional,
 } from "@/lib/admin-dados";
+import { exigirMembro, pode } from "@/lib/membro";
 
 export const dynamic = "force-dynamic";
 
@@ -16,6 +17,9 @@ function waUrl(tel: string, texto: string) {
 
 export default async function AdminPedido({ params }: { params: Promise<{ id: string }> }) {
   const { id: idParam } = await params;
+  const membro = await exigirMembro("pedidos_ver");
+  const podeGerir = pode(membro, "pedidos_gerir");
+  const podeAtribuir = pode(membro, "pedidos_atribuir");
   const id = Number(idParam);
   if (!Number.isInteger(id) || id <= 0) notFound();
 
@@ -164,6 +168,7 @@ export default async function AdminPedido({ params }: { params: Promise<{ id: st
             <div className="adm-status-steps">
               {ORDEM_ESTADOS.map((s, i) => <span key={s} className={p.status !== "cancelado" && i <= idxEstado ? "on" : ""} title={ESTADOS[s]} />)}
             </div>
+            {podeGerir ? (
             <form action={atualizarEstado}>
               <input type="hidden" name="id" value={p.id} />
               <label htmlFor="status">Mudar para</label>
@@ -174,6 +179,9 @@ export default async function AdminPedido({ params }: { params: Promise<{ id: st
               <input id="nota" name="nota" placeholder="Ex.: falei com o cliente, visita marcada" />
               <button type="submit" className="btn btn-orange">Guardar</button>
             </form>
+            ) : (
+              <p className="adm-muted">Estado atual: <strong>{ESTADOS[p.status] ?? p.status}</strong>. O seu cargo não permite alterá-lo.</p>
+            )}
           </div>
 
           <div className="adm-card adm-form">
@@ -185,16 +193,20 @@ export default async function AdminPedido({ params }: { params: Promise<{ id: st
                 <div className="adm-actions">
                   <a href={waUrl(atribuido.telefone, msgParceiro)} target="_blank" rel="noopener noreferrer" className="btn btn-wa">Enviar trabalho por WhatsApp</a>
                 </div>
-                <form action={removerAtribuicao} style={{ marginTop: 10 }}>
-                  <input type="hidden" name="id" value={p.id} />
-                  <button type="submit" className="adm-link-btn">Remover atribuição</button>
-                </form>
+                {podeAtribuir && (
+                  <form action={removerAtribuicao} style={{ marginTop: 10 }}>
+                    <input type="hidden" name="id" value={p.id} />
+                    <button type="submit" className="adm-link-btn">Remover atribuição</button>
+                  </form>
+                )}
               </div>
             ) : (
               <p className="adm-muted" style={{ marginBottom: 12 }}>Ainda não atribuído.</p>
             )}
 
-            {sugestoes.length > 0 ? (
+            {!podeAtribuir ? (
+              !atribuido && <p className="adm-muted">O seu cargo não permite atribuir pedidos.</p>
+            ) : sugestoes.length > 0 ? (
               <>
                 <label>{atribuido ? "Trocar para" : "Parceiros aprovados"}</label>
                 <div className="adm-suggest">
@@ -226,11 +238,15 @@ export default async function AdminPedido({ params }: { params: Promise<{ id: st
 
           <div className="adm-card adm-form">
             <h2>Notas internas</h2>
-            <form action={guardarNotas}>
-              <input type="hidden" name="id" value={p.id} />
-              <textarea name="notas_admin" defaultValue={p.notas_admin ?? ""} placeholder="Só visível para a equipa Pintura360." />
-              <button type="submit" className="btn btn-outline-navy">Guardar notas</button>
-            </form>
+            {podeGerir ? (
+              <form action={guardarNotas}>
+                <input type="hidden" name="id" value={p.id} />
+                <textarea name="notas_admin" defaultValue={p.notas_admin ?? ""} placeholder="Só visível para a equipa Pintura360." />
+                <button type="submit" className="btn btn-outline-navy">Guardar notas</button>
+              </form>
+            ) : (
+              <p className="adm-muted" style={{ whiteSpace: "pre-wrap" }}>{p.notas_admin || "Sem notas."}</p>
+            )}
           </div>
 
           <div className="adm-card">

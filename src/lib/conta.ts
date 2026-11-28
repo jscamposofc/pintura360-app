@@ -3,7 +3,7 @@ import { createSessionClient } from "@/lib/supabase/server";
 
 // Contas do site: cliente, profissional ou administrador.
 // O papel fica em app_metadata (só o servidor o pode alterar).
-export type Papel = "cliente" | "profissional" | "admin";
+export type Papel = "cliente" | "profissional" | "admin" | "equipa";
 
 export type Sessao = {
   id: string;
@@ -21,7 +21,13 @@ export async function getSessao(): Promise<Sessao | null> {
   if (!user || !user.email) return null;
   const papelMeta = user.app_metadata?.role;
   const papel: Papel =
-    user.email === process.env.ADMIN_EMAIL ? "admin" : papelMeta === "profissional" ? "profissional" : "cliente";
+    user.email === process.env.ADMIN_EMAIL
+      ? "admin"
+      : papelMeta === "equipa"
+        ? "equipa"
+        : papelMeta === "profissional"
+          ? "profissional"
+          : "cliente";
   return {
     id: user.id,
     email: user.email,
@@ -32,7 +38,7 @@ export async function getSessao(): Promise<Sessao | null> {
 }
 
 export function destinoDe(papel: Papel): string {
-  if (papel === "admin") return "/admin/pedidos";
+  if (papel === "admin" || papel === "equipa") return "/admin";
   if (papel === "profissional") return "/parceiro";
   return "/cliente";
 }

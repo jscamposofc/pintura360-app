@@ -2,6 +2,7 @@ import Link from "next/link";
 import { createAdminClient } from "@/lib/supabase/admin";
 import ClickableRow from "@/components/admin/ClickableRow";
 import { PRAZOS } from "@/lib/opcoes";
+import { exigirMembro } from "@/lib/membro";
 import {
   ESTADOS, PLANO_LABELS, data, euros, type Estado, type Pedido, type Profissional,
 } from "@/lib/admin-dados";
@@ -24,6 +25,7 @@ const PERIODOS: Record<string, { label: string; dias: number | null }> = {
 
 export default async function AdminPedidos({ searchParams }: { searchParams: Promise<SP> }) {
   const sp = await searchParams;
+  await exigirMembro("pedidos_ver");
   const q = (sp.q ?? "").replace(/[,()%*]/g, " ").trim().slice(0, 60);
   const estado = sp.estado && sp.estado in ESTADOS ? (sp.estado as Estado) : "";
   const plano = sp.plano && sp.plano in PLANO_LABELS ? sp.plano : "";

@@ -30,12 +30,3 @@ export async function createSessionClient() {
     }
   );
 }
-
-export async function getAdminUser() {
-  const supabase = await createSessionClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-  if (!user || user.email !== process.env.ADMIN_EMAIL) return null;
-  return user;
-}

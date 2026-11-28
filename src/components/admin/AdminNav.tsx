@@ -3,12 +3,8 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
-export default function AdminNav({ novos, pendentes }: { novos: number; pendentes: number }) {
+export default function AdminNav({ links }: { links: { href: string; label: string; count: number }[] }) {
   const pathname = usePathname();
-  const links = [
-    { href: "/admin/pedidos", label: "Pedidos", count: novos },
-    { href: "/admin/profissionais", label: "Profissionais", count: pendentes },
-  ];
   return (
     <nav className="adm-nav">
       {links.map((l) => (

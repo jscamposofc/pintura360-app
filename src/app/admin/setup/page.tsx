@@ -20,28 +20,29 @@ export default async function AdminSetup({
     <div className="adm-login">
       <div className="adm-login-card">
           <img src="/logo.png" alt="Pintura360" />
-          <h1>Configurar conta de administrador</h1>
+          <h1>Conta do proprietário</h1>
           <p>
-            Só precisa de usar esta página uma vez. Depois de criar a conta, entre sempre por{" "}
-            <a href="/admin/login">/admin/login</a>.
+            Cria a conta do proprietário ou define uma nova palavra-passe, se se tiver esquecido. Precisa do
+            token de configuração (Vercel → projeto pintura360-app → Settings → Environment Variables →
+            ADMIN_SETUP_TOKEN).
           </p>
           {sp.erro && <div className="alert alert-error">{MENSAGENS[sp.erro] ?? "Erro desconhecido."}</div>}
           <form action={criarContaAdmin}>
             <div className="field">
               <label>Token de configuração</label>
               <input type="password" name="token" required />
-              <p className="hint">O valor de ADMIN_SETUP_TOKEN nas variáveis de ambiente.</p>
+              <p className="hint">Copie o valor de ADMIN_SETUP_TOKEN no Vercel.</p>
             </div>
             <div className="field">
               <label>Email</label>
               <input type="email" name="email" required />
-              <p className="hint">Tem de ser igual ao valor de ADMIN_EMAIL.</p>
+              <p className="hint">O email do proprietário (geral@pintura360.pt).</p>
             </div>
             <div className="field">
-              <label>Palavra-passe (mínimo 12 caracteres)</label>
+              <label>Nova palavra-passe (mínimo 12 caracteres)</label>
               <input type="password" name="password" minLength={12} required />
             </div>
-            <button type="submit" className="btn btn-orange">Criar conta</button>
+            <button type="submit" className="btn btn-orange">Guardar palavra-passe</button>
           </form>
       </div>
     </div>

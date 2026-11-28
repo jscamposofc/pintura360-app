@@ -1,5 +1,9 @@
 import { redirect } from "next/navigation";
+import { exigirMembro, primeiraPagina } from "@/lib/membro";
 
-export default function AdminIndex() {
-  redirect("/admin/pedidos");
+export const dynamic = "force-dynamic";
+
+export default async function AdminIndex() {
+  const m = await exigirMembro();
+  redirect(primeiraPagina(m));
 }

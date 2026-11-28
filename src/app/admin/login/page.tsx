@@ -5,7 +5,7 @@ export const metadata = { title: "Área reservada — Pintura360" };
 export default async function AdminLogin({
   searchParams,
 }: {
-  searchParams: Promise<{ erro?: string; criado?: string }>;
+  searchParams: Promise<{ erro?: string; criado?: string; redefinida?: string }>;
 }) {
   const sp = await searchParams;
   return (
@@ -13,9 +13,11 @@ export default async function AdminLogin({
       <div className="adm-login-card">
         <img src="/logo.png" alt="Pintura360" />
         <h1>Área reservada</h1>
-        <p>Painel de gestão de pedidos e parceiros.</p>
+        <p>Painel de gestão — proprietário e equipa Pintura360.</p>
         {sp.criado && <div className="alert alert-success">Conta criada. Entre com a palavra-passe escolhida.</div>}
-        {sp.erro && <div className="alert alert-error">Credenciais incorretas.</div>}
+        {sp.redefinida && <div className="alert alert-success">Palavra-passe redefinida. Já pode entrar.</div>}
+        {sp.erro === "acesso" && <div className="alert alert-error">Esta conta não tem acesso ao painel de gestão.</div>}
+        {sp.erro && sp.erro !== "acesso" && <div className="alert alert-error">Credenciais incorretas.</div>}
         <form action={loginAdmin}>
           <div className="field">
             <label htmlFor="email">Email</label>
@@ -27,6 +29,10 @@ export default async function AdminLogin({
           </div>
           <button type="submit" className="btn btn-orange">Entrar</button>
         </form>
+        <p className="adm-login-foot">
+          Esqueceu-se da palavra-passe? Funcionários: peçam a quem gere a equipa.<br />
+          Proprietário: <a href="/admin/setup">redefinir com o token de configuração</a>.
+        </p>
       </div>
     </div>
   );

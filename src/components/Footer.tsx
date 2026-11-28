@@ -23,6 +23,7 @@ export default function Footer() {
               <li><Link href="/como-funciona">Como Funciona</Link></li>
               <li><Link href="/#projetos">Projetos</Link></li>
               <li><Link href="/trabalhe-connosco">Para Profissionais</Link></li>
+              <li><Link href="/admin/login">Admin</Link></li>
             </ul>
           </div>
           <div className="footer-col">

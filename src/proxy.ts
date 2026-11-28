@@ -31,7 +31,8 @@ export async function proxy(request: NextRequest) {
   const isAdminArea = request.nextUrl.pathname.startsWith("/admin") &&
     !publicoAdmin.includes(request.nextUrl.pathname);
 
-  if (isAdminArea && (!user || user.email !== process.env.ADMIN_EMAIL)) {
+  // Painel: exige sessão; as funções de cada pessoa são verificadas em cada página/ação.
+  if (isAdminArea && !user) {
     const url = request.nextUrl.clone();
     url.pathname = "/admin/login";
     return NextResponse.redirect(url);

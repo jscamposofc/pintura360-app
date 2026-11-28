@@ -2,6 +2,7 @@ import Link from "next/link";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { aprovarProfissional, rejeitarProfissional, reverProfissional } from "@/lib/actions/admin";
 import { data, telefoneWa, type Profissional } from "@/lib/admin-dados";
+import { exigirMembro } from "@/lib/membro";
 
 export const dynamic = "force-dynamic";
 
@@ -10,6 +11,7 @@ type EstadoPro = keyof typeof ESTADOS_PRO;
 
 export default async function AdminProfissionais({ searchParams }: { searchParams: Promise<{ estado?: string }> }) {
   const sp = await searchParams;
+  await exigirMembro("profissionais_gerir");
   const filtro = sp.estado && sp.estado in ESTADOS_PRO ? (sp.estado as EstadoPro) : "";
 
   const supabase = createAdminClient();
