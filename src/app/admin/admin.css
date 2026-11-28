@@ -201,3 +201,4 @@ a.adm-kpi:hover{ border-color:var(--orange); }
 .adm-perms.compact label{ padding:8px 10px; }
 .adm-perms.readonly label{ cursor:default; }
 @media (max-width:600px){ .adm-grid-2, .adm-cargos{ grid-template-columns:1fr; } .adm-chips-sm, .adm-edit{ margin-left:0; } }
+.adm-forgot{ width:100%; margin-top:10px; }

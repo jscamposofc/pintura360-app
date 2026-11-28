@@ -11,7 +11,10 @@ export async function loginAdmin(formData: FormData) {
 
   const supabase = await createSessionClient();
   const { error } = await supabase.auth.signInWithPassword({ email, password });
-  if (error) redirect("/admin/login?erro=1");
+  if (error) {
+    console.error("loginAdmin", error.name, error.status, error.message);
+    redirect(error.status ? "/admin/login?erro=1" : "/admin/login?erro=ligacao");
+  }
 
   const membro = await getMembro();
   if (!membro) {

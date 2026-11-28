@@ -14,6 +14,7 @@ const ERROS: Record<string, string> = {
   curta: "A palavra-passe tem de ter pelo menos 8 caracteres.",
   existe: "Já existe uma conta com este email. Entre com a sua palavra-passe.",
   falha: "Não foi possível criar a conta. Tente novamente dentro de instantes.",
+  ligacao: "Não foi possível contactar o servidor de contas. Tente novamente dentro de instantes.",
 };
 
 const TEXTOS = {

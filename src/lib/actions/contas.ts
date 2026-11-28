@@ -32,7 +32,10 @@ export async function entrar(formData: FormData) {
 
   const supabase = await createSessionClient();
   const { error } = await supabase.auth.signInWithPassword({ email, password });
-  if (error) voltar(tipo, "entrar", "credenciais", `&email=${encodeURIComponent(email)}`);
+  if (error) {
+    console.error("entrar", error.name, error.status, error.message);
+    voltar(tipo, "entrar", error.status ? "credenciais" : "ligacao", `&email=${encodeURIComponent(email)}`);
+  }
 
   const sessao = await getSessao();
   redirect(sessao ? destinoDe(sessao.papel) : "/entrar");
@@ -67,7 +70,8 @@ export async function criarConta(formData: FormData) {
   }
 
   const supabase = await createSessionClient();
-  await supabase.auth.signInWithPassword({ email, password });
+  const { error: eLogin } = await supabase.auth.signInWithPassword({ email, password });
+  if (eLogin) console.error("criarConta/login", eLogin.name, eLogin.status, eLogin.message);
 
   if (tipo === "cliente") {
     const ligado = ref ? await ligarPedido(criado.user.id, ref, telefone) : false;

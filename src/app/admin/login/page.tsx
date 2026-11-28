@@ -17,7 +17,8 @@ export default async function AdminLogin({
         {sp.criado && <div className="alert alert-success">Conta criada. Entre com a palavra-passe escolhida.</div>}
         {sp.redefinida && <div className="alert alert-success">Palavra-passe redefinida. Já pode entrar.</div>}
         {sp.erro === "acesso" && <div className="alert alert-error">Esta conta não tem acesso ao painel de gestão.</div>}
-        {sp.erro && sp.erro !== "acesso" && <div className="alert alert-error">Credenciais incorretas.</div>}
+        {sp.erro === "ligacao" && <div className="alert alert-error">Não foi possível contactar o servidor de contas. Tente novamente dentro de instantes.</div>}
+        {sp.erro === "1" && <div className="alert alert-error">Email ou palavra-passe incorretos.</div>}
         <form action={loginAdmin}>
           <div className="field">
             <label htmlFor="email">Email</label>
@@ -29,9 +30,10 @@ export default async function AdminLogin({
           </div>
           <button type="submit" className="btn btn-orange">Entrar</button>
         </form>
+        <a href="/admin/setup" className="btn btn-outline-navy adm-forgot">Esqueci-me da palavra-passe</a>
         <p className="adm-login-foot">
-          Esqueceu-se da palavra-passe? Funcionários: peçam a quem gere a equipa.<br />
-          Proprietário: <a href="/admin/setup">redefinir com o token de configuração</a>.
+          Proprietário: redefine aqui com o token de configuração.<br />
+          Funcionários: peçam uma nova palavra-passe a quem gere a equipa.
         </p>
       </div>
     </div>

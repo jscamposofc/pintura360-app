@@ -20,7 +20,7 @@ export default async function AdminSetup({
     <div className="adm-login">
       <div className="adm-login-card">
           <img src="/logo.png" alt="Pintura360" />
-          <h1>Conta do proprietário</h1>
+          <h1>Recuperar palavra-passe</h1>
           <p>
             Cria a conta do proprietário ou define uma nova palavra-passe, se se tiver esquecido. Precisa do
             token de configuração (Vercel → projeto pintura360-app → Settings → Environment Variables →
