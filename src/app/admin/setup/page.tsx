@@ -17,11 +17,11 @@ export default async function AdminSetup({
 }) {
   const sp = await searchParams;
   return (
-    <section className="section-sm">
-      <div className="container" style={{ maxWidth: 440 }}>
-        <div className="card">
-          <h1 style={{ fontSize: "1.4rem" }}>Configurar conta de administrador</h1>
-          <p className="muted">
+    <div className="adm-login">
+      <div className="adm-login-card">
+          <img src="/logo.png" alt="Pintura360" />
+          <h1>Configurar conta de administrador</h1>
+          <p>
             Só precisa de usar esta página uma vez. Depois de criar a conta, entre sempre por{" "}
             <a href="/admin/login">/admin/login</a>.
           </p>
@@ -41,10 +41,9 @@ export default async function AdminSetup({
               <label>Palavra-passe (mínimo 12 caracteres)</label>
               <input type="password" name="password" minLength={12} required />
             </div>
-            <button type="submit" className="btn btn-orange btn-block">Criar conta</button>
+            <button type="submit" className="btn btn-orange">Criar conta</button>
           </form>
-        </div>
       </div>
-    </section>
+    </div>
   );
 }

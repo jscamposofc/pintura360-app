@@ -9,25 +9,25 @@ export default async function AdminLogin({
 }) {
   const sp = await searchParams;
   return (
-    <section className="section-sm">
-      <div className="container" style={{ maxWidth: 420 }}>
-        <div className="card">
-          <h1 style={{ fontSize: "1.4rem" }}>Área reservada</h1>
-          {sp.criado && <div className="alert alert-success">Conta criada. Entre com a palavra-passe escolhida.</div>}
-          {sp.erro && <div className="alert alert-error">Credenciais incorretas.</div>}
-          <form action={loginAdmin}>
-            <div className="field">
-              <label>Email</label>
-              <input type="email" name="email" required autoFocus />
-            </div>
-            <div className="field">
-              <label>Palavra-passe</label>
-              <input type="password" name="password" required />
-            </div>
-            <button type="submit" className="btn btn-orange btn-block">Entrar</button>
-          </form>
-        </div>
+    <div className="adm-login">
+      <div className="adm-login-card">
+        <img src="/logo.png" alt="Pintura360" />
+        <h1>Área reservada</h1>
+        <p>Painel de gestão de pedidos e parceiros.</p>
+        {sp.criado && <div className="alert alert-success">Conta criada. Entre com a palavra-passe escolhida.</div>}
+        {sp.erro && <div className="alert alert-error">Credenciais incorretas.</div>}
+        <form action={loginAdmin}>
+          <div className="field">
+            <label htmlFor="email">Email</label>
+            <input id="email" type="email" name="email" autoComplete="username" required autoFocus />
+          </div>
+          <div className="field">
+            <label htmlFor="password">Palavra-passe</label>
+            <input id="password" type="password" name="password" autoComplete="current-password" required />
+          </div>
+          <button type="submit" className="btn btn-orange">Entrar</button>
+        </form>
       </div>
-    </section>
+    </div>
   );
 }

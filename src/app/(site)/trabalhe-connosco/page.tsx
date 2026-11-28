@@ -10,8 +10,8 @@ export default async function TrabalheConnosco({
   const sp = await searchParams;
   return (
     <>
-      <section className="hero" style={{ padding: "48px 0" }}>
-        <div className="container hero-grid">
+      <section className="page-hero" style={{ padding: "48px 0" }}>
+        <div className="container page-hero-grid">
           <div>
             <span className="eyebrow">Para Profissionais</span>
             <h1 style={{ fontSize: "2.1rem" }}>Receba pedidos de pintura na sua zona</h1>

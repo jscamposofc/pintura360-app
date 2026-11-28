@@ -37,7 +37,7 @@ export default function ComoFunciona() {
                 <div className="step-card">
                   <span className="step-num">1</span>
                   <h3>Verificação de identidade e atividade</h3>
-                  <p className="muted">Todo o profissional confirma NIF e comprovativo de atividade antes de entrar no diretório.</p>
+                  <p className="muted">Todo o profissional confirma NIF e comprovativo de atividade antes de entrar na rede Pintura360.</p>
                 </div>
                 <div className="step-card">
                   <span className="step-num">2</span>
@@ -83,7 +83,7 @@ export default function ComoFunciona() {
                 </div>
               </div>
               <div style={{ marginTop: 24 }}>
-                <Link href="/pedido-orcamento" className="btn btn-orange">Pedir Orçamento Grátis</Link>
+                <Link href="/#orcamento" className="btn btn-orange">Pedir Orçamento Grátis</Link>
               </div>
             </div>
           </div>
