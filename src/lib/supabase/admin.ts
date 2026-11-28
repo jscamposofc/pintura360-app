@@ -8,7 +8,7 @@ import { SUPABASE_URL } from "@/lib/supabase/env";
 export function createAdminClient() {
   return createClient(
     SUPABASE_URL,
-    (process.env.SUPABASE_SERVICE_ROLE_KEY ?? "").trim(),
+    (process.env.SUPABASE_SERVICE_ROLE_KEY ?? "").trim().replace(/[^\x21-\x7e]/g, ""),
     { auth: { persistSession: false, autoRefreshToken: false } }
   );
 }
