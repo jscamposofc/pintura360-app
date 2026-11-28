@@ -253,3 +253,9 @@ table.admin-table th{background:var(--paper);font-size:.76rem;text-transform:upp
   .photo-gallery{grid-template-columns:1fr 1fr}
   .photo-gallery .tall{height:220px;grid-row:span 1}
 }
+.photo-gallery-2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.photo-gallery-2 img{width:100%;height:360px;object-fit:cover;border-radius:var(--radius-sm);box-shadow:var(--shadow-sm)}
+@media (max-width:760px){
+  .photo-gallery-2{grid-template-columns:1fr}
+  .photo-gallery-2 img{height:260px}
+}

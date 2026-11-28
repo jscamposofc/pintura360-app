@@ -19,6 +19,9 @@ type Pedido = {
   pref_profissional_id: number | null;
   status: string;
   profissional_id: number | null;
+  plano: string | null;
+  estimated_price: number | null;
+  materials_included: boolean | null;
 };
 
 type ProfissionalLinha = { id: number; nome: string; empresa: string | null; status: string };
@@ -63,6 +66,11 @@ export default async function AdminPedidos() {
                 <span className="muted" style={{ fontSize: ".86rem" }}>
                   {p.telefone} · {p.email} · {new Date(p.created_at).toLocaleString("pt-PT")}
                 </span>
+                {p.estimated_price != null && (
+                  <p style={{ margin: "6px 0 0" }}>
+                    <strong>Estimativa:</strong> {p.estimated_price} € ({p.plano}{p.materials_included ? ", com material" : ", sem material"})
+                  </p>
+                )}
                 {p.notas && <p className="muted" style={{ margin: "6px 0 0" }}>{p.notas}</p>}
                 {atribuido && <p style={{ margin: "6px 0 0" }}><strong>Atribuído a:</strong> {atribuido.empresa || atribuido.nome}</p>}
               </div>

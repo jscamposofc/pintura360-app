@@ -92,9 +92,8 @@ export default function ComoFunciona() {
 
       <section className="section" style={{ background: "#fff", borderTop: "1px solid var(--line)" }}>
         <div className="container">
-          <div className="photo-gallery">
-            <img src="/fotos/hero-cuidado-detalhe.jpg" alt="Pormenor do trabalho de pintura Pintura360" />
-            <img className="tall" src="/fotos/foto-equipa-1.jpg" alt="Profissional Pintura360 a pintar, visto de costas" />
+          <div className="photo-gallery-2">
+            <img src="/fotos/foto-equipa-1.jpg" alt="Profissional Pintura360 a pintar, visto de costas" />
             <img src="/fotos/hero-divisao-pintura.jpg" alt="Profissional Pintura360 a pintar uma parede cinzenta" />
           </div>
         </div>

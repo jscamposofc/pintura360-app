@@ -2,8 +2,10 @@
 
 import { useState } from "react";
 import { criarPedido } from "@/lib/actions/pedidos";
+import { calcPrice, PLAN_LABELS, PLAN_DESCRIPTIONS, type Plano } from "@/lib/pricing";
 
 const SERVICOS = ["Interiores", "Exteriores", "Fachadas", "Estuque/Pladur", "Outro"];
+const PLANOS: Plano[] = ["essencial", "recomendado", "premium"];
 
 export default function WizardOrcamento({
   prefId,
@@ -17,6 +19,8 @@ export default function WizardOrcamento({
   const [area, setArea] = useState("");
   const [divisoes, setDivisoes] = useState("");
   const [estadoSuperficie, setEstadoSuperficie] = useState("Boas");
+  const [comMateriais, setComMateriais] = useState(true);
+  const [plano, setPlano] = useState<Plano>("recomendado");
   const [distrito, setDistrito] = useState("");
   const [concelho, setConcelho] = useState("");
   const [prazo, setPrazo] = useState("Esta semana");
@@ -26,14 +30,17 @@ export default function WizardOrcamento({
   const [notas, setNotas] = useState("");
   const [consent, setConsent] = useState(false);
 
+  const areaNum = Number(area) || 0;
+  const precoEstimado = servico ? calcPrice(servico, areaNum, plano, comMateriais) : 0;
+
   function next() {
     if (step === 1 && !servico) return alert("Escolha um tipo de serviço.");
-    if (step === 3 && (!distrito || !concelho.trim())) return alert("Preencha distrito e concelho.");
-    if (step === 4) {
+    if (step === 4 && (!distrito || !concelho.trim())) return alert("Preencha distrito e concelho.");
+    if (step === 5) {
       if (!nome.trim() || !telefone.trim() || !email.trim()) return alert("Preencha todos os campos obrigatórios.");
       if (!consent) return alert("Tem de aceitar a política de privacidade.");
     }
-    setStep((s) => Math.min(s + 1, 5));
+    setStep((s) => Math.min(s + 1, 6));
   }
   function prev() {
     setStep((s) => Math.max(s - 1, 1));
@@ -44,9 +51,12 @@ export default function WizardOrcamento({
       <input type="hidden" name="servico" value={servico} />
       <input type="hidden" name="pref_id" value={prefId ?? ""} />
       <input type="hidden" name="pref_nome" value={prefNome ?? ""} />
+      <input type="hidden" name="plano" value={plano} />
+      <input type="hidden" name="estimated_price" value={precoEstimado} />
+      <input type="hidden" name="materials_included" value={comMateriais ? "1" : "0"} />
 
       <div className="wizard-progress">
-        {[1, 2, 3, 4, 5].map((n) => <span key={n} className={n <= step ? "done" : ""} />)}
+        {[1, 2, 3, 4, 5, 6].map((n) => <span key={n} className={n <= step ? "done" : ""} />)}
       </div>
 
       {prefNome && (
@@ -91,6 +101,39 @@ export default function WizardOrcamento({
       </div>
 
       <div className={`wizard-step ${step === 3 ? "active" : ""}`}>
+        <h3>A sua estimativa</h3>
+        <p className="muted" style={{ marginTop: -8, marginBottom: 16 }}>
+          Valor indicativo — o preço final é confirmado com o profissional atribuído.
+        </p>
+        <div className="checkbox-row" style={{ marginBottom: 18 }}>
+          <input type="checkbox" id="comMateriais" checked={comMateriais} onChange={(e) => setComMateriais(e.target.checked)} />
+          <label htmlFor="comMateriais">Material incluído (tintas e consumíveis)</label>
+        </div>
+        <div className="grid grid-3" style={{ gap: 14 }}>
+          {PLANOS.map((p) => {
+            const preco = servico ? calcPrice(servico, areaNum, p, comMateriais) : 0;
+            return (
+              <div
+                key={p}
+                className={`option-card ${plano === p ? "selected" : ""}`}
+                style={{ textAlign: "left", padding: 18, cursor: "pointer" }}
+                onClick={() => setPlano(p)}
+              >
+                <div className="muted" style={{ fontSize: ".72rem", fontWeight: 800, textTransform: "uppercase", letterSpacing: ".04em" }}>
+                  {PLAN_LABELS[p]}
+                </div>
+                <div style={{ fontSize: "1.5rem", fontWeight: 800, color: "var(--navy)", margin: "6px 0" }}>
+                  {preco} <span style={{ fontSize: ".85rem", fontWeight: 600, color: "var(--muted)" }}>€</span>
+                </div>
+                <div className="muted" style={{ fontSize: ".78rem", fontWeight: 400 }}>{PLAN_DESCRIPTIONS[p]}</div>
+              </div>
+            );
+          })}
+        </div>
+        <div className="wizard-nav"><button type="button" className="btn btn-outline-navy" onClick={prev}>Voltar</button><button type="button" className="btn btn-orange" onClick={next}>Continuar</button></div>
+      </div>
+
+      <div className={`wizard-step ${step === 4 ? "active" : ""}`}>
         <h3>Localização e prazo</h3>
         <div className="field">
           <label>Distrito</label>
@@ -115,7 +158,7 @@ export default function WizardOrcamento({
         <div className="wizard-nav"><button type="button" className="btn btn-outline-navy" onClick={prev}>Voltar</button><button type="button" className="btn btn-orange" onClick={next}>Continuar</button></div>
       </div>
 
-      <div className={`wizard-step ${step === 4 ? "active" : ""}`}>
+      <div className={`wizard-step ${step === 5 ? "active" : ""}`}>
         <h3>Os seus dados</h3>
         <div className="field">
           <label>Nome</label>
@@ -140,20 +183,21 @@ export default function WizardOrcamento({
         <div className="wizard-nav"><button type="button" className="btn btn-outline-navy" onClick={prev}>Voltar</button><button type="button" className="btn btn-orange" onClick={next}>Rever Pedido</button></div>
       </div>
 
-      <div className={`wizard-step ${step === 5 ? "active" : ""}`}>
+      <div className={`wizard-step ${step === 6 ? "active" : ""}`}>
         <h3>Confirme o seu pedido</h3>
         <div className="card" style={{ background: "var(--paper)" }}>
           <p><strong>Serviço:</strong> {servico || "—"}</p>
           <p><strong>Área:</strong> {area || "—"} m² · <strong>Divisões:</strong> {divisoes || "—"}</p>
+          <p><strong>Estimativa ({PLAN_LABELS[plano]}{comMateriais ? ", com material" : ", sem material"}):</strong> {precoEstimado} €</p>
           <p><strong>Localização:</strong> {concelho || "—"}, {distrito || "—"}</p>
           <p><strong>Nome:</strong> {nome || "—"} · <strong>Telemóvel:</strong> {telefone || "—"}</p>
           <p><strong>Email:</strong> {email || "—"}</p>
           {prefNome && <p><strong>Profissional preferido:</strong> {prefNome}</p>}
         </div>
         <div className="alert alert-info">
-          Não há nenhum pagamento a fazer agora. A nossa equipa analisa o pedido e envia-lhe
-          até 3 propostas de profissionais verificados na sua zona. Os contactos diretos do
-          profissional só são partilhados depois de escolher e confirmar uma proposta.
+          Esta estimativa é indicativa. Não há nenhum pagamento a fazer agora. A nossa equipa
+          analisa o pedido e atribui-o a um profissional verificado da sua zona, que confirma
+          o valor final consigo. Os contactos diretos só são partilhados depois de confirmar.
         </div>
         <div className="wizard-nav"><button type="button" className="btn btn-outline-navy" onClick={prev}>Voltar</button><button type="submit" className="btn btn-orange">Enviar Pedido</button></div>
       </div>

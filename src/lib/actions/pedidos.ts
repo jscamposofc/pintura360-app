@@ -17,6 +17,9 @@ export async function criarPedido(formData: FormData) {
   const divisoesRaw = formData.get("divisoes");
   const prefIdRaw = formData.get("pref_id");
   const consent = formData.get("consent");
+  const plano = String(formData.get("plano") ?? "").trim().slice(0, 20);
+  const estimatedPriceRaw = formData.get("estimated_price");
+  const materialsIncluded = formData.get("materials_included") === "1";
 
   const emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
   const ok = nome && telefone && emailOk && servico && distrito && concelho && consent === "1";
@@ -36,6 +39,9 @@ export async function criarPedido(formData: FormData) {
     area: areaRaw ? Number(areaRaw) : null,
     divisoes: divisoesRaw ? Number(divisoesRaw) : null,
     pref_profissional_id: prefIdRaw ? Number(prefIdRaw) : null,
+    plano: plano || null,
+    estimated_price: estimatedPriceRaw ? Number(estimatedPriceRaw) : null,
+    materials_included: materialsIncluded,
   });
 
   if (error) redirect("/pedido-orcamento?erro=1");

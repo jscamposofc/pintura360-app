@@ -64,10 +64,9 @@ export default async function Home() {
             <span className="eyebrow">Transformamos espaços</span>
             <h2>Profissionais a sério, trabalho a sério.</h2>
           </div>
-          <div className="photo-gallery">
-            <img className="tall" src="/fotos/hero-divisao-pintura.jpg" alt="Profissional Pintura360 a pintar uma parede cinzenta" />
+          <div className="photo-gallery-2">
+            <img src="/fotos/hero-divisao-pintura.jpg" alt="Profissional Pintura360 a pintar uma parede cinzenta" />
             <img src="/fotos/foto-equipa-1.jpg" alt="Profissional Pintura360 a pintar, visto de costas" />
-            <img src="/fotos/hero-cuidado-detalhe.jpg" alt="Pormenor do trabalho de pintura Pintura360" />
           </div>
         </div>
       </section>
