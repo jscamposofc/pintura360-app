@@ -622,6 +622,11 @@ export default function Orcamento() {
             <strong>Referência {registo.referencia}</strong>
             <button type="button" onClick={() => void downloadQuotePDF(registo)}>↓ Resumo em PDF</button>
           </div>
+          <div className="confirm-account">
+            <span>👤</span>
+            <p><strong>Acompanhe este pedido online.</strong> Crie uma conta de cliente com o mesmo telemóvel e o pedido fica guardado na sua área.</p>
+            <a href={`/entrar?tipo=cliente&modo=criar&ref=${encodeURIComponent(registo.referencia)}`} className="btn btn-outline-navy">Criar conta</a>
+          </div>
           {fotosFalhadas > 0 && (
             <p className="confirm-photo-warning">
               {fotosFalhadas === 1 ? "Uma fotografia não foi enviada." : `${fotosFalhadas} fotografias não foram enviadas.`} Pode enviá-las depois pelo WhatsApp, indicando a referência.

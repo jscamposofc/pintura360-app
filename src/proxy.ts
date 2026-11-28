@@ -37,9 +37,19 @@ export async function proxy(request: NextRequest) {
     return NextResponse.redirect(url);
   }
 
+  // Áreas de cliente e de parceiro: exigem sessão iniciada.
+  const path = request.nextUrl.pathname;
+  const areaConta = path.startsWith("/cliente") ? "cliente" : path.startsWith("/parceiro") ? "profissional" : null;
+  if (areaConta && !user) {
+    const url = request.nextUrl.clone();
+    url.pathname = "/entrar";
+    url.search = `?tipo=${areaConta}`;
+    return NextResponse.redirect(url);
+  }
+
   return response;
 }
 
 export const config = {
-  matcher: ["/admin/:path*"],
+  matcher: ["/admin/:path*", "/cliente/:path*", "/parceiro/:path*", "/entrar"],
 };

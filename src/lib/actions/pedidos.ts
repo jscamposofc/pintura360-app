@@ -2,6 +2,7 @@
 
 import { createAdminClient } from "@/lib/supabase/admin";
 import { BUCKET_FOTOS } from "@/lib/storage";
+import { getSessao } from "@/lib/conta";
 import {
   AREA_MAX, AREA_MIN, PLANOS, SERVICE_LABELS, TIPOS, calcPrice, getBillableArea,
   type Materiais, type Plano, type TipoServico,
@@ -101,10 +102,15 @@ export async function criarPedido(input: PedidoInput): Promise<CriarPedidoResult
   const precoEstimado = calcPrice(tipo, area, plano, comMateriais);
   const areaFaturavel = getBillableArea(area);
 
+  // Cliente com sessão iniciada: o pedido fica logo na sua área.
+  const sessao = await getSessao().catch(() => null);
+  const clienteId = sessao?.papel === "cliente" ? sessao.id : null;
+
   const supabase = createAdminClient();
   const { data, error } = await supabase
     .from("pedidos")
     .insert({
+      cliente_id: clienteId,
       servico: SERVICE_LABELS[tipo],
       tipo_servico: tipo,
       area,

@@ -2,13 +2,17 @@
 
 import { redirect } from "next/navigation";
 import { createAdminClient } from "@/lib/supabase/admin";
+import { getSessao } from "@/lib/conta";
 
+// Inscrição do parceiro — feita a partir da área de parceiro (/parceiro), com conta.
 export async function inscreverProfissional(formData: FormData) {
+  const sessao = await getSessao();
+  if (!sessao || sessao.papel !== "profissional") redirect("/entrar?tipo=profissional");
   const nome = String(formData.get("nome") ?? "").trim().slice(0, 80);
   const empresa = String(formData.get("empresa") ?? "").trim().slice(0, 80);
   const nif = String(formData.get("nif") ?? "").trim();
   const telefone = String(formData.get("telefone") ?? "").trim().slice(0, 30);
-  const email = String(formData.get("email") ?? "").trim().slice(0, 120);
+  const email = sessao.email;
   const distrito = String(formData.get("distrito") ?? "").trim().slice(0, 40);
   const concelhosRaw = String(formData.get("concelhos") ?? "").trim();
   const anosRaw = formData.get("anos_experiencia");
@@ -24,10 +28,12 @@ export async function inscreverProfissional(formData: FormData) {
   const ok =
     nome && nifOk && telefone && emailOk && distrito && concelhosRaw &&
     servicos.length > 0 && anosRaw && apresentacao && consent === "1";
-  if (!ok) redirect("/trabalhe-connosco?erro=1");
+  if (!ok) redirect("/parceiro?erro=1");
 
   const concelhos = concelhosRaw.split(",").map((c) => c.trim()).filter(Boolean);
   const supabase = createAdminClient();
+  const { data: existente } = await supabase.from("profissionais").select("id").eq("user_id", sessao.id).maybeSingle();
+  if (existente) redirect("/parceiro");
 
   const { data: inserido, error } = await supabase
     .from("profissionais")
@@ -44,11 +50,12 @@ export async function inscreverProfissional(formData: FormData) {
       tem_seguro: temSeguro,
       apresentacao,
       portfolio_link: portfolioLink || null,
+      user_id: sessao.id,
     })
     .select("id")
     .single();
 
-  if (error || !inserido) redirect("/trabalhe-connosco?erro=1");
+  if (error || !inserido) redirect("/parceiro?erro=1");
 
   if (comprovativo && comprovativo.size > 0) {
     const permitido = ["application/pdf", "image/jpeg", "image/png"].includes(comprovativo.type);
@@ -65,5 +72,5 @@ export async function inscreverProfissional(formData: FormData) {
     }
   }
 
-  redirect("/obrigado-profissional");
+  redirect("/parceiro?inscrito=1");
 }

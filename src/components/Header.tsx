@@ -60,7 +60,7 @@ export default function Header() {
           ))}
         </div>
         <div className="nav-actions">
-          <Link href="/admin/login" className="nav-login" onClick={() => setOpen(false)}>
+          <Link href="/entrar" className="nav-login" onClick={() => setOpen(false)}>
             <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4" /><path d="M4 21c0-4 3.6-7 8-7s8 3 8 7" /></svg>
             <span>Entrar</span>
           </Link>
