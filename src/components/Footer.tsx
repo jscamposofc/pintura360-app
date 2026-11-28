@@ -49,6 +49,7 @@ export default function Footer() {
             <Link href="/privacidade">Política de Privacidade</Link>
             <Link href="/cookies">Política de Cookies</Link>
             <Link href="/termos">Termos e Condições</Link>
+            <Link href="/admin/login">Área reservada</Link>
           </p>
         </div>
       </div>

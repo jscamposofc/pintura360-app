@@ -59,12 +59,19 @@ export default function Header() {
             </Link>
           ))}
         </div>
-        <Link href="/#orcamento" className="btn btn-orange nav-cta-btn" onClick={() => setOpen(false)}>
-          <svg width="15" height="15" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-            <path d={WA_ICON} />
-          </svg>
-          Orçamento Grátis
-        </Link>
+        <div className="nav-actions">
+          <Link href="/admin/login" className="nav-login" onClick={() => setOpen(false)}>
+            <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4" /><path d="M4 21c0-4 3.6-7 8-7s8 3 8 7" /></svg>
+            <span>Entrar</span>
+          </Link>
+          <Link href="/#orcamento" className="btn btn-orange nav-cta-btn" onClick={() => setOpen(false)}>
+            <svg width="15" height="15" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+              <path d={WA_ICON} />
+            </svg>
+            <span className="cta-long">Orçamento Grátis</span>
+            <span className="cta-short">Orçamento</span>
+          </Link>
+        </div>
         <button
           className="menu-toggle"
           aria-label={open ? "Fechar menu" : "Abrir menu"}
